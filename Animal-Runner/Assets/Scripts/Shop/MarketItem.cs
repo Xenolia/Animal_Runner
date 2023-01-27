@@ -12,12 +12,15 @@ public class MarketItem : MonoBehaviour
 
     private List<MarketItem> marketItems;
 
+    [SerializeField] private Color[] animalImageColors;
+
     //[SerializeField] private GameObject Animal;
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI priceText;
 
     [SerializeField] private Button buyButton, selectButton;
 
+    [SerializeField] private Image animalImage;
     bool hasItem, chosenItem;
 
     int money, remainingMoney, choosenAnimalID;
@@ -51,10 +54,12 @@ public class MarketItem : MonoBehaviour
             {
                 selectButton.gameObject.SetActive(true);
             }
+            animalImage.color = animalImageColors[1];
         }
         else
         {
             buyButton.gameObject.SetActive(true);
+            animalImage.color = animalImageColors[0];
         }
     }
 
@@ -71,6 +76,7 @@ public class MarketItem : MonoBehaviour
                 //PlayerPrefs.SetInt("item" + itemId.ToString(), 1);
                 buyButton.gameObject.SetActive(false);
                 selectButton.gameObject.SetActive(true);
+                animalImage.color = animalImageColors[1];
                 ActivateAnimal();
             }
         }

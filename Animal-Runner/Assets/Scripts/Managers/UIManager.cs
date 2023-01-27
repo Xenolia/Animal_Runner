@@ -17,12 +17,17 @@ public class UIManager : MonoBehaviour
 
     [Header("Game Start")]
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private GameObject levelTextParent;
 
     [Header("Buttons")]
     [SerializeField] private GameObject[] buttons;
 
     [Header("Shop")]
     [SerializeField] private GameObject shopPanel;
+
+    [Header("Options")]
+    [SerializeField] private GameObject optionsPanel;
+
     int Coins ;
     int levelIndex;
     int currentSceneIndex;
@@ -51,7 +56,7 @@ public class UIManager : MonoBehaviour
     {
         panels[1].SetActive(true);
         panels[2].SetActive(false);
-        LPGatheredCoinText.text = gatheredCoins.ToString();
+        LPGatheredCoinText.text = gatheredCoins.ToString() + " + " +50;
         LPTravelledDText.text = tDistance.ToString();
     }
 
@@ -102,5 +107,20 @@ public class UIManager : MonoBehaviour
     public void CloseShop()
     {
         shopPanel.SetActive(false);
+    }
+
+    public void CloseLevelText()
+    {
+        levelTextParent.SetActive(false);
+    }
+
+    public void OpenOptionsPanel()
+    {
+        optionsPanel.SetActive(true);
+    }
+
+    public void CloseOptionsPanel()
+    {
+        optionsPanel.SetActive(false);
     }
 }

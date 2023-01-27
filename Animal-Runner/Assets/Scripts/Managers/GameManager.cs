@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -15,25 +16,32 @@ public class GameManager : MonoBehaviour
     [Header("Camera")]
     [SerializeField] private GameObject[] cameras;
     //[SerializeField] float finishDistance;
-    float finishDistance,speed;
+    float finishDistance, speed, cameraSwapSpeed;
     GameObject player;
     int distance,coinNumber,currentLevel,previousLevel;
     
     bool gameBeingPlayed = false;
 
+    private CinemachineBrain cinemachineBrain;
     void Start()
     {
         currentLevel = PlayerPrefs.GetInt("Level");
         previousLevel = PlayerPrefs.GetInt("PreviousLevel");
         speed = PlayerPrefs.GetFloat("Speed");
         MarketController.current.InitiliazeMarketController();
-        if(currentLevel %5 == 0 && currentLevel !=previousLevel)
+        cinemachineBrain = Camera.main.gameObject.GetComponent<CinemachineBrain>();
+        cameraSwapSpeed = PlayerPrefs.GetFloat("CMSpeed");
+
+        if (currentLevel %5 == 0 && currentLevel !=previousLevel)
         {
+            cameraSwapSpeed -= 0.1f;
             speed += 0.2f;
             PlayerPrefs.SetFloat("Speed", speed);
             PlayerPrefs.SetInt("PreviousLevel", currentLevel);
+            PlayerPrefs.SetFloat("CMSpeed", cameraSwapSpeed);
         }
-        
+
+        Debug.Log("Kamera hizi: " + cameraSwapSpeed);
         coinNumber = PlayerPrefs.GetInt("Coin");
         //uIManager.UpdateCoinText(coinNumber);
         UIManager.current.UpdateCoinText(coinNumber);
@@ -60,6 +68,7 @@ public class GameManager : MonoBehaviour
         gameBeingPlayed = true;
        // uIManager.CloseShop();
         UIManager.current.CloseShop();
+        UIManager.current.CloseLevelText();
         characController.StartMovement(speed);
         spawnManager.StartObjectPool();
         cameras[0].SetActive(false);
@@ -97,5 +106,11 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("Coin", coinNumber);
        //uIManager.UpdateCoinText(coinNumber);
         UIManager.current.UpdateCoinText(coinNumber);
+    }
+
+    private void ChangeCameraChangeSpeed()
+    {
+        cinemachineBrain = Camera.main.gameObject.GetComponent<CinemachineBrain>();
+        cameraSwapSpeed = PlayerPrefs.GetFloat("CMSpeed");
     }
 }
