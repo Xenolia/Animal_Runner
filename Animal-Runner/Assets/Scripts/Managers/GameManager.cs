@@ -29,8 +29,7 @@ public class GameManager : MonoBehaviour
         previousLevel = PlayerPrefs.GetInt("PreviousLevel");
         speed = PlayerPrefs.GetFloat("Speed");
         MarketController.current.InitiliazeMarketController();
-        cinemachineBrain = Camera.main.gameObject.GetComponent<CinemachineBrain>();
-        cameraSwapSpeed = PlayerPrefs.GetFloat("CMSpeed");
+        SetCameraChangeSpeed();
 
         if (currentLevel %5 == 0 && currentLevel !=previousLevel)
         {
@@ -38,6 +37,7 @@ public class GameManager : MonoBehaviour
             speed += 0.2f;
             PlayerPrefs.SetFloat("Speed", speed);
             PlayerPrefs.SetInt("PreviousLevel", currentLevel);
+            cinemachineBrain.m_DefaultBlend.m_Time = cameraSwapSpeed;
             PlayerPrefs.SetFloat("CMSpeed", cameraSwapSpeed);
         }
 
@@ -66,9 +66,10 @@ public class GameManager : MonoBehaviour
     public void StartTheGame()
     {
         gameBeingPlayed = true;
-       // uIManager.CloseShop();
-        UIManager.current.CloseShop();
-        UIManager.current.CloseLevelText();
+        // uIManager.CloseShop();
+        //UIManager.current.CloseShop();
+        //UIManager.current.CloseLevelText();
+        UIManager.current.CloseStartPanelObjects();
         characController.StartMovement(speed);
         spawnManager.StartObjectPool();
         cameras[0].SetActive(false);
@@ -84,12 +85,14 @@ public class GameManager : MonoBehaviour
     }
 
     
-    public void WinTheGame(int lastCoinCount)
+    public void WinTheGame()
     {
+        coinNumber = PlayerPrefs.GetInt("Coin");
+        PlayerPrefs.SetInt("Coin", coinNumber + 50);
         gameBeingPlayed = false;
         spawnManager.StopObjectPool();
         //uIManager.OpenWinPanel(lastCoinCount, distance);
-        UIManager.current.OpenWinPanel(lastCoinCount, distance);
+        UIManager.current.OpenWinPanel(coinNumber, distance);
     }
 
     private void ShowFinishLine()
@@ -108,9 +111,10 @@ public class GameManager : MonoBehaviour
         UIManager.current.UpdateCoinText(coinNumber);
     }
 
-    private void ChangeCameraChangeSpeed()
+    private void SetCameraChangeSpeed()
     {
         cinemachineBrain = Camera.main.gameObject.GetComponent<CinemachineBrain>();
         cameraSwapSpeed = PlayerPrefs.GetFloat("CMSpeed");
+        cinemachineBrain.m_DefaultBlend.m_Time = cameraSwapSpeed;
     }
 }

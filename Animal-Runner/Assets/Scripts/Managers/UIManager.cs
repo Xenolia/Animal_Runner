@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour
     {
         panels[0].SetActive(true);
         panels[2].SetActive(false);
-        WPGatheredCoinText.text = gatheredCoins.ToString();
+        WPGatheredCoinText.text = gatheredCoins.ToString() + " + " + 50;
         WPTravelledDText.text = tDistance.ToString();
     }
 
@@ -56,7 +56,7 @@ public class UIManager : MonoBehaviour
     {
         panels[1].SetActive(true);
         panels[2].SetActive(false);
-        LPGatheredCoinText.text = gatheredCoins.ToString() + " + " +50;
+        LPGatheredCoinText.text = gatheredCoins.ToString();
         LPTravelledDText.text = tDistance.ToString();
     }
 
@@ -104,12 +104,12 @@ public class UIManager : MonoBehaviour
         buttons[1].SetActive(false);
     }
 
-    public void CloseShop()
+    private void CloseShop()
     {
         shopPanel.SetActive(false);
     }
 
-    public void CloseLevelText()
+    private void CloseLevelText()
     {
         levelTextParent.SetActive(false);
     }
@@ -122,5 +122,16 @@ public class UIManager : MonoBehaviour
     public void CloseOptionsPanel()
     {
         optionsPanel.SetActive(false);
+    }
+
+    private void CloseSettingsButton()
+    {
+        buttons[2].gameObject.SetActive(false);
+    }
+    public void CloseStartPanelObjects()
+    {
+        CloseLevelText();
+        CloseShop();
+        CloseSettingsButton();
     }
 }
