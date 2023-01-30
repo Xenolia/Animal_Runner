@@ -17,12 +17,17 @@ public class UIManager : MonoBehaviour
 
     [Header("Game Start")]
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private GameObject levelTextParent;
 
     [Header("Buttons")]
     [SerializeField] private GameObject[] buttons;
 
     [Header("Shop")]
     [SerializeField] private GameObject shopPanel;
+
+    [Header("Options")]
+    [SerializeField] private GameObject optionsPanel;
+
     int Coins ;
     int levelIndex;
     int currentSceneIndex;
@@ -37,7 +42,7 @@ public class UIManager : MonoBehaviour
     {
         panels[0].SetActive(true);
         panels[2].SetActive(false);
-        WPGatheredCoinText.text = gatheredCoins.ToString();
+        WPGatheredCoinText.text = gatheredCoins.ToString() + " + " + 50;
         WPTravelledDText.text = tDistance.ToString();
     }
 
@@ -99,8 +104,34 @@ public class UIManager : MonoBehaviour
         buttons[1].SetActive(false);
     }
 
-    public void CloseShop()
+    private void CloseShop()
     {
         shopPanel.SetActive(false);
+    }
+
+    private void CloseLevelText()
+    {
+        levelTextParent.SetActive(false);
+    }
+
+    public void OpenOptionsPanel()
+    {
+        optionsPanel.SetActive(true);
+    }
+
+    public void CloseOptionsPanel()
+    {
+        optionsPanel.SetActive(false);
+    }
+
+    private void CloseSettingsButton()
+    {
+        buttons[2].gameObject.SetActive(false);
+    }
+    public void CloseStartPanelObjects()
+    {
+        CloseLevelText();
+        CloseShop();
+        CloseSettingsButton();
     }
 }

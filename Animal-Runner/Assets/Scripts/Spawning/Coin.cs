@@ -52,22 +52,24 @@ public class Coin : MonoBehaviour
 
             if (random == 0)
             {
-                transform.position = new Vector3(other.transform.position.x+0.35f, transform.position.y, transform.position.z);
+                transform.position = new Vector3(other.transform.position.x+0.65f, transform.position.y, transform.position.z);
             }
             else
             {
-                transform.position = new Vector3(other.transform.position.x + -0.35f, transform.position.y, transform.position.z);
+                transform.position = new Vector3(other.transform.position.x + -0.65f, transform.position.y, transform.position.z);
             }
         }
 
         if (other.CompareTag("Left"))
         {
-            transform.localPosition = new Vector3(transform.localPosition.x + 1.2f, transform.localPosition.y, transform.localPosition.z);
+            float xPos = Random.Range(-0.7f, 0.7f);
+            transform.localPosition = new Vector3(xPos, transform.localPosition.y, transform.localPosition.z);
         }
 
         else if (other.CompareTag("Right"))
         {
-            transform.localPosition = new Vector3(transform.localPosition.x - 1.2f, transform.localPosition.y, transform.localPosition.z);
+            float xPos = Random.Range(-0.7f, 0.7f);
+            transform.localPosition = new Vector3(xPos, transform.localPosition.y, transform.localPosition.z);
         }
     }
 }

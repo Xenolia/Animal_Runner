@@ -22,7 +22,7 @@ public class ObstacleSpawner : MonoBehaviour
         if(cars[carIndex].activeSelf == false)
         {
             cars[carIndex].SetActive(true);
-            carXPos = Random.Range(-0.465f, 0.465f);
+            carXPos = Random.Range(-0.55f, 0.55f);
             cars[carIndex].transform.position = new Vector3(carXPos, -0.02f, playerTransform.position.z + 10f);
         }
         else
@@ -32,7 +32,7 @@ public class ObstacleSpawner : MonoBehaviour
                 if(car.activeSelf == false)
                 {
                     car.SetActive(true);
-                    carXPos = Random.Range(-0.465f, 0.465f);
+                    carXPos = Random.Range(-0.55f, 0.55f);
                     car.transform.position = new Vector3(carXPos, -0.02f, playerTransform.position.z + 10f);
                     return;
                 }
@@ -46,7 +46,7 @@ public class ObstacleSpawner : MonoBehaviour
         if (vans[vanIndex].activeSelf == false)
         {
             vans[vanIndex].SetActive(true);
-            vanXPos = Random.Range(-0.4f, 0.4f);
+            vanXPos = Random.Range(-0.45f, 0.45f);
             vans[vanIndex].transform.position = new Vector3(vanXPos, 0, playerTransform.position.z + 12.5f);
         }
         else
@@ -56,7 +56,7 @@ public class ObstacleSpawner : MonoBehaviour
                 if (van.activeSelf == false)
                 {
                     van.SetActive(true);
-                    vanXPos = Random.Range(-0.4f, 0.4f);
+                    vanXPos = Random.Range(-0.45f, 0.45f);
                     van.transform.position = new Vector3(vanXPos, 0, playerTransform.position.z + 12.5f);
                     return;
                 }

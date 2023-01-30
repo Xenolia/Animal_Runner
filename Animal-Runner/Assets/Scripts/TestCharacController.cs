@@ -261,20 +261,26 @@ public class TestCharacController : MonoBehaviour
         }
         if (other.CompareTag("Finish"))
         {
-            reward = PlayerPrefs.GetInt("Coin") + 50;
-            PlayerPrefs.SetInt("Coin", reward);
-            gameManager.WinTheGame(reward);
+            //reward = PlayerPrefs.GetInt("Coin") + 50;
+            //PlayerPrefs.SetInt("Coin", reward);
+            gameManager.WinTheGame();
             StopMovement();
+        }
+
+        if (other.CompareTag("Deathzone"))
+        {
+            StopMovement(true);
+            gameManager.LoseTheGame();
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Obstacle"))
+       /* if (collision.gameObject.CompareTag("Obstacle"))
         {
             StopMovement(true);
             gameManager.LoseTheGame();
-        }
+        }*/
     }
 
     private void OnCollisionStay(Collision collision)

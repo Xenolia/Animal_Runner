@@ -15,5 +15,10 @@ public class SaveManager : MonoBehaviour
         {
             PlayerPrefs.SetFloat("Speed", 3.3f);
         }
+
+        if (!PlayerPrefs.HasKey("CMSpeed"))
+        {
+            PlayerPrefs.SetFloat("CMSpeed", 2f);
+        }
     }
 }
