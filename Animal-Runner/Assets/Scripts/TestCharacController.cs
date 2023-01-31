@@ -258,6 +258,7 @@ public class TestCharacController : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             gameManager.AddCoin();
+            SoundManager.current.PlayCoinSound();
         }
         if (other.CompareTag("Finish"))
         {
@@ -282,6 +283,11 @@ public class TestCharacController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Truck"))
+        {
+            StopMovement(true);
+            gameManager.LoseTheGame();
+        }
+        if (collision.gameObject.CompareTag("Deathzone"))
         {
             StopMovement(true);
             gameManager.LoseTheGame();

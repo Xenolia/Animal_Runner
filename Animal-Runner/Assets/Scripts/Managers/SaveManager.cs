@@ -20,5 +20,14 @@ public class SaveManager : MonoBehaviour
         {
             PlayerPrefs.SetFloat("CMSpeed", 1f);
         }
+
+        if (!PlayerPrefs.HasKey("Sounds"))
+        {
+            PlayerPrefs.SetInt("Sounds", 1);
+        }
+        if (!PlayerPrefs.HasKey("Music"))
+        {
+            PlayerPrefs.SetInt("Music", 1);
+        }
     }
 }

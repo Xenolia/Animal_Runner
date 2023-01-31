@@ -20,7 +20,9 @@ public class GameManager : MonoBehaviour
     int distance,coinNumber,currentLevel,previousLevel;
     
     bool gameBeingPlayed = false;
+    [Header("Gate Animation")]
     [SerializeField] private GameObject[] gates;
+    [SerializeField] private GameObject Zoo_gate;
 
     void Start()
     {
@@ -33,12 +35,20 @@ public class GameManager : MonoBehaviour
 
         if (currentLevel %5 == 0 && currentLevel !=previousLevel)
         {
-            cameraSwapSpeed -= 0.1f;
-            speed += 0.2f;
-            PlayerPrefs.SetFloat("Speed", speed);
-            PlayerPrefs.SetInt("PreviousLevel", currentLevel);
-            CameraManager.current.SetCameraChangeSpeed(cameraSwapSpeed);
-            PlayerPrefs.SetFloat("CMSpeed", cameraSwapSpeed);
+            if (cameraSwapSpeed > 0.7f)
+            {
+                cameraSwapSpeed -= 0.1f;
+                CameraManager.current.SetCameraChangeSpeed(cameraSwapSpeed);
+                PlayerPrefs.SetFloat("CMSpeed", cameraSwapSpeed);
+            }
+            
+            if(speed <= 6.9f)
+            {
+                speed += 0.4f;
+                PlayerPrefs.SetFloat("Speed", speed);
+                PlayerPrefs.SetInt("PreviousLevel", currentLevel);
+            }
+                             
         }
 
         Debug.Log("Kamera hizi: " + cameraSwapSpeed);
@@ -49,7 +59,7 @@ public class GameManager : MonoBehaviour
         distance = Mathf.RoundToInt(player.transform.position.z);
         UIManager.current.UpdateDistanceText(distance);
 
-        finishDistance = currentLevel * 30+1;
+        finishDistance = (25+ currentLevel * 25)+1;
         finishLine.transform.position = new Vector3(transform.position.x, transform.position.y, finishDistance);
     }
 
@@ -77,6 +87,7 @@ public class GameManager : MonoBehaviour
         gameBeingPlayed = false;
         spawnManager.StopObjectPool();
         UIManager.current.OpenLosePanel(coinNumber, distance);
+        SoundManager.current.PlayLoseGameSound();
     }
 
     
@@ -87,6 +98,7 @@ public class GameManager : MonoBehaviour
         gameBeingPlayed = false;
         spawnManager.StopObjectPool();
         UIManager.current.OpenWinPanel(coinNumber, distance);
+        SoundManager.current.PlayWinGameSound();
     }
 
     private void ShowFinishLine()

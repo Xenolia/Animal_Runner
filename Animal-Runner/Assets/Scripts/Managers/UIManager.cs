@@ -37,6 +37,28 @@ public class UIManager : MonoBehaviour
         levelIndex = PlayerPrefs.GetInt("Level");
         levelText.text = levelIndex.ToString();
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        if(PlayerPrefs.GetInt("Music") == 1)
+        {
+            buttons[4].gameObject.SetActive(false);
+            buttons[3].gameObject.SetActive(true);
+        }
+        else
+        {
+            buttons[4].gameObject.SetActive(true);
+            buttons[3].gameObject.SetActive(false);
+        }
+
+        if(PlayerPrefs.GetInt("Sounds") == 1)
+        {
+            buttons[5].gameObject.SetActive(true);
+            buttons[6].gameObject.SetActive(false);
+        }
+        else
+        {
+            buttons[5].gameObject.SetActive(false);
+            buttons[6].gameObject.SetActive(true);
+        }
     }
     public void OpenWinPanel(int gatheredCoins,int tDistance)
     {
@@ -128,10 +150,42 @@ public class UIManager : MonoBehaviour
     {
         buttons[2].gameObject.SetActive(false);
     }
+    
     public void CloseStartPanelObjects()
     {
         CloseLevelText();
         CloseShop();
         CloseSettingsButton();
+    }
+
+    public void CloseMusicButton()
+    {
+        buttons[4].gameObject.SetActive(true);
+        buttons[3].gameObject.SetActive(false);
+        SoundManager.current.CloseGameMusic();
+        PlayerPrefs.SetInt("Music", 0);
+    }
+
+    public void OpenMusicButton()
+    {
+        buttons[4].gameObject.SetActive(false);
+        buttons[3].gameObject.SetActive(true);
+        SoundManager.current.PlayGameMusic();
+        PlayerPrefs.SetInt("Music", 1);
+    }
+
+    public void CloseSoundButton()
+    {
+        buttons[5].gameObject.SetActive(false);
+        buttons[6].gameObject.SetActive(true);
+        SoundManager.current.MuteSounds();
+        PlayerPrefs.SetInt("Sounds", 0);
+    }
+    public void OpenSoundButton()
+    {
+        buttons[5].gameObject.SetActive(true);
+        buttons[6].gameObject.SetActive(false);
+        SoundManager.current.ActivateSounds();
+        PlayerPrefs.SetInt("Sounds", 1);
     }
 }

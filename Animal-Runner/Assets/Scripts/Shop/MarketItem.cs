@@ -77,6 +77,7 @@ public class MarketItem : MonoBehaviour
                 buyButton.gameObject.SetActive(false);
                 selectButton.gameObject.SetActive(true);
                 animalImage.color = animalImageColors[1];
+                SoundManager.current.PlayBuySound();
                 ActivateAnimal();
             }
         }
