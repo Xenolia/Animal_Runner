@@ -272,15 +272,20 @@ public class TestCharacController : MonoBehaviour
             StopMovement(true);
             gameManager.LoseTheGame();
         }
+
+        if (other.CompareTag("Zoo"))
+        {
+            CameraManager.current.ChangeCamera(CameraManager.current.cameras[2]);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-       /* if (collision.gameObject.CompareTag("Obstacle"))
+        if (collision.gameObject.CompareTag("Truck"))
         {
             StopMovement(true);
             gameManager.LoseTheGame();
-        }*/
+        }
     }
 
     private void OnCollisionStay(Collision collision)

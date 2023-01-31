@@ -10,27 +10,13 @@ public class Coin : MonoBehaviour
     private void OnEnable()
     {
         Invoke("CheckPlayersPosition", 5.5f);
-        //StartCoroutine(RotateTheCoin());
     }
-
-   /* private void OnDisable()
-    {
-        StopCoroutine(RotateTheCoin());
-    }*/
 
     private void RotateTheCoin()
     {
-        transform.Rotate(3, 0, 0);
+        transform.Rotate(250*Time.deltaTime, 0, 0);
     }
 
-    /*IEnumerator RotateTheCoin()
-    {
-        while (true)
-        {
-            transform.Rotate(3, 0, 0);
-            yield return new WaitForSeconds(0f);
-        }
-    }*/
     private void Update()
     {
         RotateTheCoin();
@@ -52,7 +38,20 @@ public class Coin : MonoBehaviour
 
             if (random == 0)
             {
-                transform.position = new Vector3(other.transform.position.x+0.65f, transform.position.y, transform.position.z);
+                transform.position = new Vector3(other.transform.position.x+0.55f, transform.position.y, transform.position.z);
+            }
+            else
+            {
+                transform.position = new Vector3(other.transform.position.x + -0.55f, transform.position.y, transform.position.z);
+            }
+        }
+        else if (other.CompareTag("Truck"))
+        {
+            random = Random.Range(0, 2);
+
+            if (random == 0)
+            {
+                transform.position = new Vector3(other.transform.position.x + 0.65f, transform.position.y, transform.position.z);
             }
             else
             {

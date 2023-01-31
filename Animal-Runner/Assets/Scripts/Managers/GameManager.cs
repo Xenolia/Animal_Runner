@@ -1,35 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
-using TMPro;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
     [Header("Scripts")]
     [SerializeField] private TestCharacController characController;
     [SerializeField] private SpawnManager spawnManager;
-    //[SerializeField] private UIManager uIManager;
+
     [Header("Finish")]
     [SerializeField] private GameObject finishLine;
 
     [Header("Camera")]
     [SerializeField] private GameObject[] cameras;
-    //[SerializeField] float finishDistance;
+
     float finishDistance, speed, cameraSwapSpeed;
     GameObject player;
     int distance,coinNumber,currentLevel,previousLevel;
     
     bool gameBeingPlayed = false;
+    [SerializeField] private GameObject[] gates;
 
-    private CinemachineBrain cinemachineBrain;
     void Start()
     {
         currentLevel = PlayerPrefs.GetInt("Level");
         previousLevel = PlayerPrefs.GetInt("PreviousLevel");
         speed = PlayerPrefs.GetFloat("Speed");
         MarketController.current.InitiliazeMarketController();
-        SetCameraChangeSpeed();
+        cameraSwapSpeed = PlayerPrefs.GetFloat("CMSpeed");
+        CameraManager.current.SetCameraChangeSpeed(cameraSwapSpeed);
 
         if (currentLevel %5 == 0 && currentLevel !=previousLevel)
         {
@@ -37,18 +37,18 @@ public class GameManager : MonoBehaviour
             speed += 0.2f;
             PlayerPrefs.SetFloat("Speed", speed);
             PlayerPrefs.SetInt("PreviousLevel", currentLevel);
-            cinemachineBrain.m_DefaultBlend.m_Time = cameraSwapSpeed;
+            CameraManager.current.SetCameraChangeSpeed(cameraSwapSpeed);
             PlayerPrefs.SetFloat("CMSpeed", cameraSwapSpeed);
         }
 
         Debug.Log("Kamera hizi: " + cameraSwapSpeed);
         coinNumber = PlayerPrefs.GetInt("Coin");
-        //uIManager.UpdateCoinText(coinNumber);
         UIManager.current.UpdateCoinText(coinNumber);
+
         player = characController.gameObject;
         distance = Mathf.RoundToInt(player.transform.position.z);
-        //uIManager.UpdateDistanceText(distance);
         UIManager.current.UpdateDistanceText(distance);
+
         finishDistance = currentLevel * 30+1;
         finishLine.transform.position = new Vector3(transform.position.x, transform.position.y, finishDistance);
     }
@@ -58,7 +58,6 @@ public class GameManager : MonoBehaviour
         if (gameBeingPlayed)
         {
             distance = Mathf.RoundToInt(player.transform.position.z);
-            //uIManager.UpdateDistanceText(distance);
             UIManager.current.UpdateDistanceText(distance);
             ShowFinishLine();
         }    
@@ -66,21 +65,17 @@ public class GameManager : MonoBehaviour
     public void StartTheGame()
     {
         gameBeingPlayed = true;
-        // uIManager.CloseShop();
-        //UIManager.current.CloseShop();
-        //UIManager.current.CloseLevelText();
         UIManager.current.CloseStartPanelObjects();
         characController.StartMovement(speed);
         spawnManager.StartObjectPool();
-        cameras[0].SetActive(false);
-        cameras[1].SetActive(true);
+        CameraManager.current.ChangeCamera(CameraManager.current.cameras[1]);
+        OpenTheGates();
     }
 
     public void LoseTheGame()
     {
         gameBeingPlayed = false;
         spawnManager.StopObjectPool();
-        //uIManager.OpenLosePanel(coinNumber,distance);
         UIManager.current.OpenLosePanel(coinNumber, distance);
     }
 
@@ -91,7 +86,6 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("Coin", coinNumber + 50);
         gameBeingPlayed = false;
         spawnManager.StopObjectPool();
-        //uIManager.OpenWinPanel(lastCoinCount, distance);
         UIManager.current.OpenWinPanel(coinNumber, distance);
     }
 
@@ -107,14 +101,12 @@ public class GameManager : MonoBehaviour
     {
         coinNumber=PlayerPrefs.GetInt("Coin")+1;
         PlayerPrefs.SetInt("Coin", coinNumber);
-       //uIManager.UpdateCoinText(coinNumber);
         UIManager.current.UpdateCoinText(coinNumber);
     }
 
-    private void SetCameraChangeSpeed()
+    private void OpenTheGates()
     {
-        cinemachineBrain = Camera.main.gameObject.GetComponent<CinemachineBrain>();
-        cameraSwapSpeed = PlayerPrefs.GetFloat("CMSpeed");
-        cinemachineBrain.m_DefaultBlend.m_Time = cameraSwapSpeed;
+        gates[0].transform.DORotate(new Vector3(0, -90, 0), 4f, RotateMode.LocalAxisAdd);
+        gates[1].transform.DORotate(new Vector3(0, 90, 0), 4f, RotateMode.LocalAxisAdd);
     }
 }

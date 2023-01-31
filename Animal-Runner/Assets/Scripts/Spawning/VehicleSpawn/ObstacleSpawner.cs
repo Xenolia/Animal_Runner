@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ObstacleSpawner : MonoBehaviour
 {
-    public List<GameObject> cars, vans, trucks;
+    public List<GameObject> cars, vans, trucks, barriers;
 
     [SerializeField]private Transform playerTransform;
     float carXPos, vanXPos, truckXPos;
-    int carIndex, vanIndex, truckIndex;
+    int carIndex, vanIndex, truckIndex,barrierIndex;
     void Awake()
     {
         SpawnCars();
@@ -88,11 +88,36 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
+    private void SpawnBarriers()
+    {
+        barrierIndex = Random.Range(0, barriers.Count);
+        if (barriers[barrierIndex].activeSelf == false)
+        {
+            barriers[barrierIndex].SetActive(true);
+           // barrierXPos = Random.Range(-0.35f, 0.35f);
+            barriers[barrierIndex].transform.localPosition = new Vector3(0, 0f, playerTransform.position.z + 18.5f);
+        }
+        else
+        {
+            foreach (GameObject barrier in barriers)
+            {
+                if (barrier.activeSelf == false)
+                {
+                    barrier.SetActive(true);
+                    //barrierXPos = Random.Range(-0.35f, 0.35f);
+                    barrier.transform.localPosition = new Vector3(0, 0f, playerTransform.position.z + 18.5f);
+                    return;
+                }
+            }
+        }
+    }
+
     public void CreateVehicles()
     {
         InvokeRepeating("SpawnCars", 3f, 3f);
         InvokeRepeating("SpawnVans", 3f, 3f);
         InvokeRepeating("SpawnTrucks", 3f, 6f);
+        InvokeRepeating("SpawnBarriers", 3f, 6f);
     }
 
     public void StopCreatingVehicles()

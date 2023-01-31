@@ -11,6 +11,8 @@ TagManager:
   - Left
   - SpawnTrigger
   - Deathzone
+  - Zoo
+  - Truck
   layers:
   - Default
   - TransparentFX
