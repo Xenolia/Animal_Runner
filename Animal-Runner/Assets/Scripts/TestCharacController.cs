@@ -13,6 +13,7 @@ public class TestCharacController : MonoBehaviour
     Vector3 position;
     bool canMove = false;
     bool isJumping = false;
+    bool gameOver ;
     private float speed;
 
     [Header("Jump")]
@@ -39,6 +40,7 @@ public class TestCharacController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        gameOver = false;
     }
 
     void Update()
@@ -270,8 +272,12 @@ public class TestCharacController : MonoBehaviour
 
         if (other.CompareTag("Deathzone"))
         {
-            StopMovement(true);
-            gameManager.LoseTheGame();
+            if (!gameOver)
+            {
+                StopMovement(true);
+                gameManager.LoseTheGame();
+                gameOver = true;
+            }
         }
 
         if (other.CompareTag("Zoo"))
@@ -284,13 +290,22 @@ public class TestCharacController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Truck"))
         {
-            StopMovement(true);
-            gameManager.LoseTheGame();
+            if (!gameOver)
+            {
+                StopMovement(true);
+                gameManager.LoseTheGame();
+                gameOver = true;
+            }
+            
         }
-        if (collision.gameObject.CompareTag("Deathzone"))
+        if (collision.gameObject.CompareTag("Barrier"))
         {
-            StopMovement(true);
-            gameManager.LoseTheGame();
+            if (!gameOver)
+            {
+                StopMovement(true);
+                gameManager.LoseTheGame();
+                gameOver = true;
+            }
         }
     }
 

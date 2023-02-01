@@ -58,6 +58,32 @@ public class Coin : MonoBehaviour
                 transform.position = new Vector3(other.transform.position.x + -0.65f, transform.position.y, transform.position.z);
             }
         }
+        else if (other.CompareTag("Deathzone"))
+        {
+            random = Random.Range(0, 2);
+
+            if (random == 0)
+            {
+                transform.localPosition = new Vector3(other.transform.position.x + 0.55f, transform.position.y, transform.position.z);
+            }
+            else
+            {
+                transform.localPosition = new Vector3(other.transform.position.x + -0.55f, transform.position.y, transform.position.z);
+            }
+        }
+        else if (other.CompareTag("Barrier"))
+        {
+            random = Random.Range(0, 2);
+
+            if (random == 0)
+            {
+                transform.localPosition = new Vector3(transform.position.x , transform.position.y, other.transform.position.z + 1f);
+            }
+            else
+            {
+                transform.localPosition = new Vector3(transform.position.x , transform.position.y, other.transform.position.z+1f);
+            }
+        }
 
         if (other.CompareTag("Left"))
         {

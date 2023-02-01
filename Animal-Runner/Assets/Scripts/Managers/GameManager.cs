@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
             
             if(speed <= 6.9f)
             {
-                speed += 0.4f;
+                speed += 0.45f;
                 PlayerPrefs.SetFloat("Speed", speed);
                 PlayerPrefs.SetInt("PreviousLevel", currentLevel);
             }

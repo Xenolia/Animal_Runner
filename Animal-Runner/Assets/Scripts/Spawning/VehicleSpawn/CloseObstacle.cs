@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class CloseObstacle : MonoBehaviour
 {
-    [SerializeField] private Transform playerTransform;
+    //[SerializeField] private Transform playerTransform;
     private void OnEnable()
     {
-        Invoke("CheckPlayersPosition", 5.5f);
+        Invoke("CloseGameObject", 6.5f);
     }
 
-    private void CheckPlayersPosition()
+    /*private void CheckPlayersPosition()
     {
         if (transform.position.z < playerTransform.position.z)
         {
             gameObject.SetActive(false);
         }
-    }
+    }*/
 
+    private void CloseGameObject()
+    {
+        gameObject.SetActive(false);
+    }
     /*private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Finish"))

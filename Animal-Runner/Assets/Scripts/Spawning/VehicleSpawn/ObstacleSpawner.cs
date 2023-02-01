@@ -11,9 +11,9 @@ public class ObstacleSpawner : MonoBehaviour
     int carIndex, vanIndex, truckIndex,barrierIndex;
     void Awake()
     {
-        SpawnCars();
-        SpawnVans();
-        SpawnTrucks();
+        //SpawnCars();
+        //SpawnVans();
+        //SpawnTrucks();
     }
 
     private void SpawnCars()
@@ -95,7 +95,7 @@ public class ObstacleSpawner : MonoBehaviour
         {
             barriers[barrierIndex].SetActive(true);
            // barrierXPos = Random.Range(-0.35f, 0.35f);
-            barriers[barrierIndex].transform.localPosition = new Vector3(0, 0f, playerTransform.position.z + 18.5f);
+            barriers[barrierIndex].transform.localPosition = new Vector3(0, 0f, playerTransform.position.z + 18.2f);
         }
         else
         {
@@ -105,7 +105,7 @@ public class ObstacleSpawner : MonoBehaviour
                 {
                     barrier.SetActive(true);
                     //barrierXPos = Random.Range(-0.35f, 0.35f);
-                    barrier.transform.localPosition = new Vector3(0, 0f, playerTransform.position.z + 18.5f);
+                    barrier.transform.localPosition = new Vector3(0, 0f, playerTransform.position.z + 18.2f);
                     return;
                 }
             }
@@ -114,10 +114,10 @@ public class ObstacleSpawner : MonoBehaviour
 
     public void CreateVehicles()
     {
-        InvokeRepeating("SpawnCars", 3f, 3f);
-        InvokeRepeating("SpawnVans", 3f, 3f);
-        InvokeRepeating("SpawnTrucks", 3f, 6f);
-        InvokeRepeating("SpawnBarriers", 3f, 6f);
+        InvokeRepeating("SpawnCars", 0f, 3f);
+        InvokeRepeating("SpawnVans", 0f, 3f);
+        InvokeRepeating("SpawnTrucks", 0f, 6f);
+        InvokeRepeating("SpawnBarriers", 0f, 6f);
     }
 
     public void StopCreatingVehicles()
