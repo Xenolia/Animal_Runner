@@ -177,12 +177,12 @@ public class TestCharacController : MonoBehaviour
         //Rotate
         if (touch.deltaPosition.x > 0)
         {
-            
-            transform.rotation = Quaternion.Slerp(transform.rotation, rightTurningAngle, .1f);
+
+            animal.transform.localRotation = Quaternion.Slerp(transform.rotation, rightTurningAngle, .1f);
         }
         else if(touch.deltaPosition.x < 0)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, leftTurningAngle, .1f);
+            animal.transform.localRotation = Quaternion.Slerp(transform.rotation, leftTurningAngle, .1f);
         }
 
         if(touch.phase == TouchPhase.Ended)
