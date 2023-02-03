@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour
     public void LoseTheGame()
     {
         gameBeingPlayed = false;
+        coinNumber = PlayerPrefs.GetInt("Coin");
         spawnManager.StopObjectPool();
         UIManager.current.OpenLosePanel(coinNumber, distance);
         SoundManager.current.PlayLoseGameSound();
