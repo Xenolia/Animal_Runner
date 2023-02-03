@@ -87,13 +87,13 @@ public class Coin : MonoBehaviour
 
         if (other.CompareTag("Left"))
         {
-            float xPos = Random.Range(-0.7f, 0.7f);
+            float xPos = Random.Range(-0.65f, 0.65f);
             transform.localPosition = new Vector3(xPos, transform.localPosition.y, transform.localPosition.z);
         }
 
         else if (other.CompareTag("Right"))
         {
-            float xPos = Random.Range(-0.7f, 0.7f);
+            float xPos = Random.Range(-0.65f, 0.65f);
             transform.localPosition = new Vector3(xPos, transform.localPosition.y, transform.localPosition.z);
         }
     }

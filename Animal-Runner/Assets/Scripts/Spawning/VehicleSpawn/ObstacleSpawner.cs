@@ -95,7 +95,7 @@ public class ObstacleSpawner : MonoBehaviour
         {
             barriers[barrierIndex].SetActive(true);
            // barrierXPos = Random.Range(-0.35f, 0.35f);
-            barriers[barrierIndex].transform.localPosition = new Vector3(0, 0f, playerTransform.position.z + 18.2f);
+            barriers[barrierIndex].transform.localPosition = new Vector3(0, 0f, playerTransform.position.z + 17f);
         }
         else
         {
@@ -105,7 +105,7 @@ public class ObstacleSpawner : MonoBehaviour
                 {
                     barrier.SetActive(true);
                     //barrierXPos = Random.Range(-0.35f, 0.35f);
-                    barrier.transform.localPosition = new Vector3(0, 0f, playerTransform.position.z + 18.2f);
+                    barrier.transform.localPosition = new Vector3(0, 0f, playerTransform.position.z + 17f);
                     return;
                 }
             }

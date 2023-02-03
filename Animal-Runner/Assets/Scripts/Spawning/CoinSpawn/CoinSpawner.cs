@@ -7,10 +7,6 @@ public class CoinSpawner : MonoBehaviour
     public List<GameObject> coins;
     private float coinXPos;
     [SerializeField] private Transform playerTransform;
-    void Awake()
-    {
-        SpawnCoin();
-    }
 
     void SpawnCoin()
     {
@@ -20,7 +16,7 @@ public class CoinSpawner : MonoBehaviour
             {
                 coin.SetActive(true);
 
-                coinXPos = Random.Range(-0.7f, 0.7f);
+                coinXPos = Random.Range(-0.65f, 0.65f);
 
                 //coin.transform.position = new Vector3(coinXPos, 0.08f, playerTransform.position.z+10f);
                 coin.transform.localPosition = new Vector3(coinXPos, 0.08f, playerTransform.position.z + 10f);

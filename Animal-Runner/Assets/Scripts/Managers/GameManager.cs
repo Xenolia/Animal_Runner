@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        PlayerPrefs.SetInt("Coin",10000);
         currentLevel = PlayerPrefs.GetInt("Level");
         previousLevel = PlayerPrefs.GetInt("PreviousLevel");
         speed = PlayerPrefs.GetFloat("Speed");
@@ -35,7 +36,7 @@ public class GameManager : MonoBehaviour
 
         if (currentLevel %5 == 0 && currentLevel !=previousLevel)
         {
-            if (cameraSwapSpeed > 0.7f)
+            if (cameraSwapSpeed >= 0.7f)
             {
                 cameraSwapSpeed -= 0.1f;
                 CameraManager.current.SetCameraChangeSpeed(cameraSwapSpeed);
