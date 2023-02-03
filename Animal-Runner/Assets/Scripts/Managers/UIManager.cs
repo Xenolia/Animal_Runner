@@ -139,18 +139,24 @@ public class UIManager : MonoBehaviour
     public void OpenOptionsPanel()
     {
         optionsPanel.SetActive(true);
+        CloseSettingsButton();
     }
 
     public void CloseOptionsPanel()
     {
         optionsPanel.SetActive(false);
+        OpenSettingsButton();
     }
 
     private void CloseSettingsButton()
     {
         buttons[2].gameObject.SetActive(false);
     }
-    
+
+    private void OpenSettingsButton()
+    {
+        buttons[2].gameObject.SetActive(true);
+    }
     public void CloseStartPanelObjects()
     {
         CloseLevelText();

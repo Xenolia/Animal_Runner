@@ -115,6 +115,15 @@ public class TestCharacController : MonoBehaviour
                 rb.velocity = Vector3.up * jumpForce;
             }
         }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (isJumping)
+            {
+                rb.velocity = Vector3.zero;
+                rb.velocity = Vector3.down * jumpForce;
+            }
+        }
+        
     }
 
     #endregion
@@ -166,7 +175,9 @@ public class TestCharacController : MonoBehaviour
         {
             
         }*/
-        if(touch.deltaPosition.y > 50f)
+        //Jump
+
+        if(touch.deltaPosition.y > 40f)
         {
             if (isJumping == false)
             {
@@ -174,21 +185,32 @@ public class TestCharacController : MonoBehaviour
                 rb.velocity = Vector3.up * jumpForce;
             }
         }
+
+        else if (touch.deltaPosition.y < -40f)
+        {
+            if (isJumping)
+            {
+                rb.velocity = Vector3.zero;
+                rb.velocity = Vector3.down * jumpForce;
+            }
+        }
         //Rotate
+
         if (touch.deltaPosition.x > 0)
         {
 
-            animal.transform.localRotation = Quaternion.Slerp(transform.rotation, rightTurningAngle, .1f);
+            animal.transform.localRotation = Quaternion.Slerp(animal.transform.localRotation, rightTurningAngle, .1f);
         }
         else if(touch.deltaPosition.x < 0)
         {
-            animal.transform.localRotation = Quaternion.Slerp(transform.rotation, leftTurningAngle, .1f);
+            animal.transform.localRotation = Quaternion.Slerp(animal.transform.localRotation, leftTurningAngle, .1f);
         }
 
         if(touch.phase == TouchPhase.Ended)
         {
             ReturnDefaultAngle();
         }
+
     }
 
     #endregion
@@ -288,16 +310,6 @@ public class TestCharacController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Truck"))
-        {
-            if (!gameOver)
-            {
-                StopMovement(true);
-                gameManager.LoseTheGame();
-                gameOver = true;
-            }
-            
-        }
         if (collision.gameObject.CompareTag("Barrier"))
         {
             if (!gameOver)

@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 
         if (currentLevel %5 == 0 && currentLevel !=previousLevel)
         {
-            if (cameraSwapSpeed > 0.7f)
+            if (cameraSwapSpeed >= 0.7f)
             {
                 cameraSwapSpeed -= 0.1f;
                 CameraManager.current.SetCameraChangeSpeed(cameraSwapSpeed);
