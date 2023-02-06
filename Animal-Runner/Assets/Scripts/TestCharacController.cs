@@ -13,7 +13,8 @@ public class TestCharacController : MonoBehaviour
     Vector3 position;
     bool canMove = false;
     bool isJumping = false;
-    bool gameOver ;
+    bool gameOver;
+    bool revived = false;
     private float speed;
 
     [Header("Jump")]
@@ -48,17 +49,18 @@ public class TestCharacController : MonoBehaviour
         if (canMove)
         {
             MoveForward();
-
-            ManageMobileControl();
-
-            MovementWithKeyboard();
+            
             if (Input.touchCount > 0)
-            {           
+            {
+                ManageMobileControl();
+
                 ManageMobileJumpAndRotate();
             }
 
             else
             {
+                MovementWithKeyboard();
+
                 JumpWithKeyboard();
             }
 
@@ -248,6 +250,10 @@ public class TestCharacController : MonoBehaviour
         {
             canMove = false;
             playerAnimator.SetBool("isDead", true);
+            if (revived)
+            {
+                playerAnimator.SetBool("revived", false);
+            }
         }
         else
         {
@@ -334,4 +340,17 @@ public class TestCharacController : MonoBehaviour
 
     #endregion
 
+    public void Revive()
+    {
+        gameOver = false;
+        revived = true;
+        playerAnimator.SetBool("revived", true);
+        playerAnimator.SetBool("isDead", false);
+    }
+
+    public void RestartTheMovement()
+    {
+        canMove = true;
+        playerAnimator.SetTrigger("isRunning");
+    }
 }

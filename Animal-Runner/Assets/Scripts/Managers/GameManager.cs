@@ -72,6 +72,8 @@ public class GameManager : MonoBehaviour
             ShowFinishLine();
         }    
     }
+
+    #region GameStates
     public void StartTheGame()
     {
         gameBeingPlayed = true;
@@ -102,6 +104,14 @@ public class GameManager : MonoBehaviour
         SoundManager.current.PlayWinGameSound();
     }
 
+    public void ContiuneTheGame()
+    {
+        characController.RestartTheMovement();
+        gameBeingPlayed = true;
+        spawnManager.StartObjectPool();
+    }
+    #endregion
+
     private void ShowFinishLine()
     {
         if(distance >= finishDistance-20)
@@ -122,4 +132,21 @@ public class GameManager : MonoBehaviour
         gates[0].transform.DORotate(new Vector3(0, -90, 0), 4f, RotateMode.LocalAxisAdd);
         gates[1].transform.DORotate(new Vector3(0, 90, 0), 4f, RotateMode.LocalAxisAdd);
     }
+
+    #region Revive
+    public void RevivePlayer()
+    {
+        characController.Revive();
+    }
+
+   /* IEnumerator TimeTextAnimation()
+    {
+        UIManager.current.TimeText.gameObject.SetActive(true);
+        while (true)
+        {
+
+        }
+    }*/
+
+    #endregion
 }

@@ -28,9 +28,13 @@ public class UIManager : MonoBehaviour
     [Header("Options")]
     [SerializeField] private GameObject optionsPanel;
 
+    public TextMeshProUGUI TimeText;
+
     int Coins ;
     int levelIndex;
     int currentSceneIndex;
+
+    private Coroutine currentCoroutine;
     private void Start()
     {
         current = this;
@@ -60,6 +64,8 @@ public class UIManager : MonoBehaviour
             buttons[6].gameObject.SetActive(true);
         }
     }
+
+    #region Panels
     public void OpenWinPanel(int gatheredCoins,int tDistance)
     {
         panels[0].SetActive(true);
@@ -88,6 +94,32 @@ public class UIManager : MonoBehaviour
         panels[2].SetActive(false);
     }
 
+    public void OpenOptionsPanel()
+    {
+        optionsPanel.SetActive(true);
+        CloseSettingsButton();
+    }
+
+    public void CloseOptionsPanel()
+    {
+        optionsPanel.SetActive(false);
+        OpenSettingsButton();
+    }
+
+    private void CloseShop()
+    {
+        shopPanel.SetActive(false);
+    }
+
+    public void CloseStartPanelObjects()
+    {
+        CloseLevelText();
+        CloseShop();
+        CloseSettingsButton();
+    }
+    #endregion
+
+    #region Texts
     public void UpdateCoinText(int coin)
     {
         coinText.text = coin.ToString();
@@ -97,7 +129,9 @@ public class UIManager : MonoBehaviour
     {
         distanceText.text = distance.ToString()+"m";
     }
+    #endregion
 
+    #region Buttons
     public void PlayAgain()
     {
         int previousLevelIndex = levelIndex;
@@ -126,28 +160,6 @@ public class UIManager : MonoBehaviour
         buttons[1].SetActive(false);
     }
 
-    private void CloseShop()
-    {
-        shopPanel.SetActive(false);
-    }
-
-    private void CloseLevelText()
-    {
-        levelTextParent.SetActive(false);
-    }
-
-    public void OpenOptionsPanel()
-    {
-        optionsPanel.SetActive(true);
-        CloseSettingsButton();
-    }
-
-    public void CloseOptionsPanel()
-    {
-        optionsPanel.SetActive(false);
-        OpenSettingsButton();
-    }
-
     private void CloseSettingsButton()
     {
         buttons[2].gameObject.SetActive(false);
@@ -156,12 +168,6 @@ public class UIManager : MonoBehaviour
     private void OpenSettingsButton()
     {
         buttons[2].gameObject.SetActive(true);
-    }
-    public void CloseStartPanelObjects()
-    {
-        CloseLevelText();
-        CloseShop();
-        CloseSettingsButton();
     }
 
     public void CloseMusicButton()
@@ -193,5 +199,41 @@ public class UIManager : MonoBehaviour
         buttons[6].gameObject.SetActive(false);
         SoundManager.current.ActivateSounds();
         PlayerPrefs.SetInt("Sounds", 1);
+    }
+    private void CloseLevelText()
+    {
+        levelTextParent.SetActive(false);
+    }
+    #endregion    
+
+    public void ContiuneButton()
+    {
+        gameManager.RevivePlayer();
+        CloseLosePanel();
+        buttons[7].gameObject.SetActive(false);
+        currentCoroutine = StartCoroutine(TimeTextAnimation());
+        StartCoroutine(StopAfter());
+    }
+
+    IEnumerator TimeTextAnimation()
+    {
+        TimeText.gameObject.SetActive(true);
+        panels[1].SetActive(false);
+        panels[2].SetActive(true);
+        int time=3;
+        while (true)
+        {
+            TimeText.text = time.ToString();
+            time -= 1;
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    IEnumerator StopAfter()
+    {
+        yield return new WaitForSeconds(3f);
+        TimeText.gameObject.SetActive(false);
+        StopCoroutine(currentCoroutine);
+        gameManager.ContiuneTheGame();
     }
 }
