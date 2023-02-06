@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System;
+
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] private AdManager _adManager;
     public static UIManager current;
 
     [Header("Panels")]
@@ -35,6 +38,35 @@ public class UIManager : MonoBehaviour
     int currentSceneIndex;
 
     private Coroutine currentCoroutine;
+
+    private Action OnTestButtonClickedEvent;
+
+    #region Event Example
+    private void OnTestButtonClickedMethod1()
+    {
+        Debug.Log("Test Button clicked1");
+    }
+
+    private void OnTestButtonClickedMethod2()
+    {
+        Debug.Log("Test Button clicked2");
+    }
+
+    [NaughtyAttributes.Button("Test Button")]
+    private void ClickTestButton()
+    {
+        OnTestButtonClickedEvent?.Invoke();
+    }
+
+
+    [NaughtyAttributes.Button("Register Event")]
+    private void RegisterTestEvent()
+    {
+        OnTestButtonClickedEvent += OnTestButtonClickedMethod1;
+        OnTestButtonClickedEvent += OnTestButtonClickedMethod2;
+    }
+
+    #endregion
     private void Start()
     {
         current = this;
@@ -141,10 +173,30 @@ public class UIManager : MonoBehaviour
 
     public void NextLevel()
     {
+        Debug.Log("asda");
+        if(_adManager.InterstatialAdManager.IsInterstatialAdReady())
+        {
+            _adManager.InterstatialAdManager.RegisterOnAdClosedEvent(OnInterstatialAdClosed);
+            _adManager.InterstatialAdManager.ShowAd();
+        }
+        else
+        {
+            levelIndex++;
+            PlayerPrefs.SetInt("Level", levelIndex);
+            SceneManager.LoadScene(currentSceneIndex);
+        }
+
+    }
+
+    private void OnInterstatialAdClosed(IronSourceAdInfo info)
+    {
+        _adManager.InterstatialAdManager.UnRegisterOnAdClosedEvent(OnInterstatialAdClosed);
+
         levelIndex++;
         PlayerPrefs.SetInt("Level", levelIndex);
         SceneManager.LoadScene(currentSceneIndex);
     }
+
     public void StartButton()
     {
         gameManager.StartTheGame();
@@ -153,13 +205,21 @@ public class UIManager : MonoBehaviour
 
     public void DoubleCoinButton()
     {
+        if(_adManager.RewardedAdManager.IsRewardedAdReady())
+        {
+            _adManager.RewardedAdManager.RegisterOnUserEarnedRewarededEvent(OnUserEarnedReward);
+            _adManager.RewardedAdManager.ShowAd();
+        }
+    }
+
+    private void OnUserEarnedReward(IronSourcePlacement placement, IronSourceAdInfo info)
+    {
         Coins = PlayerPrefs.GetInt("Coin");
         Coins *= 2;
         PlayerPrefs.SetInt("Coin", Coins);
         WPGatheredCoinText.text = Coins.ToString();
         buttons[1].SetActive(false);
     }
-
     private void CloseSettingsButton()
     {
         buttons[2].gameObject.SetActive(false);

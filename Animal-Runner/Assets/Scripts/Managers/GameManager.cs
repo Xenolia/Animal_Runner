@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
         distance = Mathf.RoundToInt(player.transform.position.z);
         UIManager.current.UpdateDistanceText(distance);
 
-        finishDistance = (25+ currentLevel * 25)+1;
+        finishDistance = (25+ currentLevel * 15)+1;
         finishLine.transform.position = new Vector3(transform.position.x, transform.position.y, finishDistance);
     }
 
@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour
         spawnManager.StopObjectPool();
         UIManager.current.OpenLosePanel(coinNumber, distance);
         SoundManager.current.PlayLoseGameSound();
+        
     }
 
     
@@ -106,9 +107,14 @@ public class GameManager : MonoBehaviour
 
     public void ContiuneTheGame()
     {
+        spawnManager.CloseObstacles();
         characController.RestartTheMovement();
         gameBeingPlayed = true;
         spawnManager.StartObjectPool();
+        if(PlayerPrefs.GetInt("Music") == 1)
+        {
+            SoundManager.current.PlayGameMusic();
+        }
     }
     #endregion
 
@@ -138,15 +144,5 @@ public class GameManager : MonoBehaviour
     {
         characController.Revive();
     }
-
-   /* IEnumerator TimeTextAnimation()
-    {
-        UIManager.current.TimeText.gameObject.SetActive(true);
-        while (true)
-        {
-
-        }
-    }*/
-
     #endregion
 }

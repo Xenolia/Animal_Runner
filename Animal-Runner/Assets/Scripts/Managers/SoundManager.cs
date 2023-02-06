@@ -57,7 +57,9 @@ public class SoundManager : MonoBehaviour
 
     public void CloseGameMusic()
     {
-        sounds[4].enabled = false;
+        if(sounds[4].enabled)
+            sounds[4].enabled = false;
+
         sounds[4].Stop();
     }
 

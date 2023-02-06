@@ -9,13 +9,7 @@ public class ObstacleSpawner : MonoBehaviour
     [SerializeField]private Transform playerTransform;
     float carXPos, vanXPos, truckXPos;
     int carIndex, vanIndex, truckIndex,barrierIndex;
-    void Awake()
-    {
-        //SpawnCars();
-        //SpawnVans();
-        //SpawnTrucks();
-    }
-
+    #region Cars
     private void SpawnCars()
     {
         carIndex = Random.Range(0, cars.Count);
@@ -40,6 +34,19 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
+    private void CloseCars()
+    {
+        foreach (GameObject car in cars)
+        {
+            if (car.activeSelf )
+            {
+                car.SetActive(false);
+            }
+        }
+    }
+    #endregion
+
+    #region Vans
     private void SpawnVans()
     {
         vanIndex = Random.Range(0, vans.Count);
@@ -64,6 +71,19 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
+    private void CloseVans()
+    {
+        foreach (GameObject van in vans)
+        {
+            if (van.activeSelf)
+            {
+                van.SetActive(false);
+            }
+        }
+    }
+    #endregion
+
+    #region Trucks
     private void SpawnTrucks()
     {
         truckIndex = Random.Range(0, trucks.Count);
@@ -88,6 +108,19 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
+    private void CloseTrucks()
+    {
+        foreach (GameObject truck in trucks)
+        {
+            if (truck.activeSelf)
+            {
+                truck.SetActive(false);
+            }
+        }
+    }
+    #endregion
+
+    #region Barriers
     private void SpawnBarriers()
     {
         barrierIndex = Random.Range(0, barriers.Count);
@@ -112,6 +145,17 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
+    private void CloseBarriers()
+    {
+        foreach (GameObject barrier in barriers)
+        {
+            if (barrier.activeSelf )
+            {
+                barrier.SetActive(false);                
+            }
+        }
+    }
+    #endregion
     public void CreateVehicles()
     {
         InvokeRepeating("SpawnCars", 0f, 3f);
@@ -123,5 +167,13 @@ public class ObstacleSpawner : MonoBehaviour
     public void StopCreatingVehicles()
     {
         CancelInvoke();
+    }
+
+    public void CloseAllActiveVehicles()
+    {
+        CloseCars();
+        CloseVans();
+        CloseTrucks();
+        CloseBarriers();
     }
 }

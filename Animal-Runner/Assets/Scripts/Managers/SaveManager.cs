@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class SaveManager : MonoBehaviour
 {
+    [SerializeField] private AdManager _adManager;
+    [SerializeField] private InAppPurchase _inAppPurchase;
     private void Awake()
     {
+        Debug.Log("Test");
+        _adManager.Init();
+        
         if (!PlayerPrefs.HasKey("Level"))
         {
             PlayerPrefs.SetInt("Level", 1);
