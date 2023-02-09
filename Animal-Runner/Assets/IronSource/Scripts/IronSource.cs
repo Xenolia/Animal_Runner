@@ -15,7 +15,7 @@ public class IronSource : IronSourceIAgent
 		if (!isUnsupportedPlatform)
 		{
 #if UNITY_EDITOR || UNITY_STANDALONE
-			_platformAgent = new FakeAgent();
+			_platformAgent = new UnsupportedPlatformAgent();
 #elif (UNITY_IPHONE || UNITY_IOS)
 			_platformAgent = new iOSAgent();
 #elif UNITY_ANDROID

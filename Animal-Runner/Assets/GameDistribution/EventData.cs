@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+#if EN_GDAD
 [Serializable]
 public class EventData<T>
 {
@@ -21,3 +21,5 @@ public class MileStoneData
     public bool isAuthorized;
     public string milestoneDescription;
 }
+
+#endif

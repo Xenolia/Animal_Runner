@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
+#if CRAZY_GSDK
 namespace CrazyGames
 {
     /**
@@ -217,3 +218,4 @@ namespace CrazyGames
 #endif
     }
 }
+#endif

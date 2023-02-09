@@ -156,7 +156,7 @@ public class FakeRewardedAdManager : IRewardedAdManager
     private void OnAdClosed(IronSourceAdInfo info)
     {
         LoadAds();
-        //Debug.LogError("OnAdClosed");
+        Debug.LogError("OnAdClosed");
         Time.timeScale = _lastTimeScale;
         AudioListener.volume = 1f;
     }

@@ -1,8 +1,6 @@
 ﻿using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
 #if EN_GDAD
 public class GameManager : MonoBehaviour
 {
@@ -14,27 +12,14 @@ public class GameManager : MonoBehaviour
     public Text scoreText;
     public Text levelText;
 
-    private static int _testIndex = 0;
-
-    [SerializeField] private TextMeshProUGUI _testText;
-
-    private GameDistribution _gameDistribution;
     void Awake()
     {
-        GameObject go = new GameObject("Game Dist");
-        _gameDistribution = go.AddComponent<GameDistribution>();
-        
-        _gameDistribution.Init();
-        
         GameDistribution.OnResumeGame += OnResumeGame;
         GameDistribution.OnPauseGame += OnPauseGame;
         GameDistribution.OnPreloadRewardedVideo += OnPreloadRewardedVideo;
         GameDistribution.OnRewardedVideoSuccess += OnRewardedVideoSuccess;
         GameDistribution.OnRewardedVideoFailure += OnRewardedVideoFailure;
         GameDistribution.OnRewardGame += OnRewardGame;
-
-        _testIndex++;
-        _testText.text = _testIndex.ToString();
     }
 
     public void OnResumeGame()
