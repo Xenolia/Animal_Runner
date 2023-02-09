@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System;
+
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] private AdManager _adManager;
     public static UIManager current;
 
     [Header("Panels")]
@@ -28,9 +31,42 @@ public class UIManager : MonoBehaviour
     [Header("Options")]
     [SerializeField] private GameObject optionsPanel;
 
+    public TextMeshProUGUI TimeText;
+
     int Coins ;
     int levelIndex;
     int currentSceneIndex;
+
+    private Coroutine currentCoroutine;
+
+    private Action OnTestButtonClickedEvent;
+
+    #region Event Example
+    private void OnTestButtonClickedMethod1()
+    {
+        Debug.Log("Test Button clicked1");
+    }
+
+    private void OnTestButtonClickedMethod2()
+    {
+        Debug.Log("Test Button clicked2");
+    }
+
+    [NaughtyAttributes.Button("Test Button")]
+    private void ClickTestButton()
+    {
+        OnTestButtonClickedEvent?.Invoke();
+    }
+
+
+    [NaughtyAttributes.Button("Register Event")]
+    private void RegisterTestEvent()
+    {
+        OnTestButtonClickedEvent += OnTestButtonClickedMethod1;
+        OnTestButtonClickedEvent += OnTestButtonClickedMethod2;
+    }
+
+    #endregion
     private void Start()
     {
         current = this;
@@ -60,6 +96,8 @@ public class UIManager : MonoBehaviour
             buttons[6].gameObject.SetActive(true);
         }
     }
+
+    #region Panels
     public void OpenWinPanel(int gatheredCoins,int tDistance)
     {
         panels[0].SetActive(true);
@@ -88,54 +126,6 @@ public class UIManager : MonoBehaviour
         panels[2].SetActive(false);
     }
 
-    public void UpdateCoinText(int coin)
-    {
-        coinText.text = coin.ToString();
-    }
-
-    public void UpdateDistanceText(int distance)
-    {
-        distanceText.text = distance.ToString()+"m";
-    }
-
-    public void PlayAgain()
-    {
-        int previousLevelIndex = levelIndex;
-        PlayerPrefs.SetInt("PreviousLevel", previousLevelIndex);
-        SceneManager.LoadScene(currentSceneIndex);
-    }
-
-    public void NextLevel()
-    {
-        levelIndex++;
-        PlayerPrefs.SetInt("Level", levelIndex);
-        SceneManager.LoadScene(currentSceneIndex);
-    }
-    public void StartButton()
-    {
-        gameManager.StartTheGame();
-        buttons[0].SetActive(false);
-    }
-
-    public void DoubleCoinButton()
-    {
-        Coins = PlayerPrefs.GetInt("Coin");
-        Coins *= 2;
-        PlayerPrefs.SetInt("Coin", Coins);
-        WPGatheredCoinText.text = Coins.ToString();
-        buttons[1].SetActive(false);
-    }
-
-    private void CloseShop()
-    {
-        shopPanel.SetActive(false);
-    }
-
-    private void CloseLevelText()
-    {
-        levelTextParent.SetActive(false);
-    }
-
     public void OpenOptionsPanel()
     {
         optionsPanel.SetActive(true);
@@ -148,6 +138,88 @@ public class UIManager : MonoBehaviour
         OpenSettingsButton();
     }
 
+    private void CloseShop()
+    {
+        shopPanel.SetActive(false);
+    }
+
+    public void CloseStartPanelObjects()
+    {
+        CloseLevelText();
+        CloseShop();
+        CloseSettingsButton();
+    }
+    #endregion
+
+    #region Texts
+    public void UpdateCoinText(int coin)
+    {
+        coinText.text = coin.ToString();
+    }
+
+    public void UpdateDistanceText(int distance)
+    {
+        distanceText.text = distance.ToString()+"m";
+    }
+    #endregion
+
+    #region Buttons
+    public void PlayAgain()
+    {
+        int previousLevelIndex = levelIndex;
+        PlayerPrefs.SetInt("PreviousLevel", previousLevelIndex);
+        SceneManager.LoadScene(currentSceneIndex);
+    }
+
+    public void NextLevel()
+    {
+        Debug.Log("asda");
+        if(_adManager.InterstatialAdManager.IsInterstatialAdReady())
+        {
+            _adManager.InterstatialAdManager.RegisterOnAdClosedEvent(OnInterstatialAdClosed);
+            _adManager.InterstatialAdManager.ShowAd();
+        }
+        else
+        {
+            levelIndex++;
+            PlayerPrefs.SetInt("Level", levelIndex);
+            SceneManager.LoadScene(currentSceneIndex);
+        }
+
+    }
+
+    private void OnInterstatialAdClosed(IronSourceAdInfo info)
+    {
+        _adManager.InterstatialAdManager.UnRegisterOnAdClosedEvent(OnInterstatialAdClosed);
+
+        levelIndex++;
+        PlayerPrefs.SetInt("Level", levelIndex);
+        SceneManager.LoadScene(currentSceneIndex);
+    }
+
+    public void StartButton()
+    {
+        gameManager.StartTheGame();
+        buttons[0].SetActive(false);
+    }
+
+    public void DoubleCoinButton()
+    {
+        if(_adManager.RewardedAdManager.IsRewardedAdReady())
+        {
+            _adManager.RewardedAdManager.RegisterOnUserEarnedRewarededEvent(OnUserEarnedReward);
+            _adManager.RewardedAdManager.ShowAd();
+        }
+    }
+
+    private void OnUserEarnedReward(IronSourcePlacement placement, IronSourceAdInfo info)
+    {
+        Coins = PlayerPrefs.GetInt("Coin");
+        Coins *= 2;
+        PlayerPrefs.SetInt("Coin", Coins);
+        WPGatheredCoinText.text = Coins.ToString();
+        buttons[1].SetActive(false);
+    }
     private void CloseSettingsButton()
     {
         buttons[2].gameObject.SetActive(false);
@@ -156,12 +228,6 @@ public class UIManager : MonoBehaviour
     private void OpenSettingsButton()
     {
         buttons[2].gameObject.SetActive(true);
-    }
-    public void CloseStartPanelObjects()
-    {
-        CloseLevelText();
-        CloseShop();
-        CloseSettingsButton();
     }
 
     public void CloseMusicButton()
@@ -193,5 +259,41 @@ public class UIManager : MonoBehaviour
         buttons[6].gameObject.SetActive(false);
         SoundManager.current.ActivateSounds();
         PlayerPrefs.SetInt("Sounds", 1);
+    }
+    private void CloseLevelText()
+    {
+        levelTextParent.SetActive(false);
+    }
+    #endregion    
+
+    public void ContiuneButton()
+    {
+        gameManager.RevivePlayer();
+        CloseLosePanel();
+        buttons[7].gameObject.SetActive(false);
+        currentCoroutine = StartCoroutine(TimeTextAnimation());
+        StartCoroutine(StopAfter());
+    }
+
+    IEnumerator TimeTextAnimation()
+    {
+        TimeText.gameObject.SetActive(true);
+        panels[1].SetActive(false);
+        panels[2].SetActive(true);
+        int time=3;
+        while (true)
+        {
+            TimeText.text = time.ToString();
+            time -= 1;
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    IEnumerator StopAfter()
+    {
+        yield return new WaitForSeconds(3f);
+        TimeText.gameObject.SetActive(false);
+        StopCoroutine(currentCoroutine);
+        gameManager.ContiuneTheGame();
     }
 }

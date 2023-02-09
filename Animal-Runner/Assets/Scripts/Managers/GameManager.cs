@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         distance = Mathf.RoundToInt(player.transform.position.z);
         UIManager.current.UpdateDistanceText(distance);
 
-        finishDistance = (25+ currentLevel * 25)+1;
+        finishDistance = (25+ currentLevel * 15)+1;
         finishLine.transform.position = new Vector3(transform.position.x, transform.position.y, finishDistance);
     }
 
@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour
             ShowFinishLine();
         }    
     }
+
+    #region GameStates
     public void StartTheGame()
     {
         gameBeingPlayed = true;
@@ -86,9 +88,11 @@ public class GameManager : MonoBehaviour
     public void LoseTheGame()
     {
         gameBeingPlayed = false;
+        coinNumber = PlayerPrefs.GetInt("Coin");
         spawnManager.StopObjectPool();
         UIManager.current.OpenLosePanel(coinNumber, distance);
         SoundManager.current.PlayLoseGameSound();
+        
     }
 
     
@@ -101,6 +105,19 @@ public class GameManager : MonoBehaviour
         UIManager.current.OpenWinPanel(coinNumber, distance);
         SoundManager.current.PlayWinGameSound();
     }
+
+    public void ContiuneTheGame()
+    {
+        spawnManager.CloseObstacles();
+        characController.RestartTheMovement();
+        gameBeingPlayed = true;
+        spawnManager.StartObjectPool();
+        if(PlayerPrefs.GetInt("Music") == 1)
+        {
+            SoundManager.current.PlayGameMusic();
+        }
+    }
+    #endregion
 
     private void ShowFinishLine()
     {
@@ -122,4 +139,11 @@ public class GameManager : MonoBehaviour
         gates[0].transform.DORotate(new Vector3(0, -90, 0), 4f, RotateMode.LocalAxisAdd);
         gates[1].transform.DORotate(new Vector3(0, 90, 0), 4f, RotateMode.LocalAxisAdd);
     }
+
+    #region Revive
+    public void RevivePlayer()
+    {
+        characController.Revive();
+    }
+    #endregion
 }

@@ -37,24 +37,29 @@ public class SoundManager : MonoBehaviour
 
     public void PlayCoinSound()
     {
-        sounds[0].Play();
+        if(sounds[0].enabled)
+            sounds[0].Play();
     }
 
     public void PlayLoseGameSound()
     {
-        sounds[1].Play();
+        if (sounds[1].enabled)
+            sounds[1].Play();
         CloseGameMusic();
     }
 
     public void PlayWinGameSound()
     {
-        sounds[2].Play();
+        if (sounds[2].enabled)
+            sounds[2].Play();
         CloseGameMusic();
     }
 
     public void CloseGameMusic()
     {
-        sounds[4].enabled = false;
+        if(sounds[4].enabled)
+            sounds[4].enabled = false;
+
         sounds[4].Stop();
     }
 

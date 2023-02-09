@@ -30,4 +30,9 @@ public class SpawnManager : MonoBehaviour
         obstacleSpawner.StopCreatingVehicles();
         coinSpawner.StopCreatingCoins();
     }
+
+    public void CloseObstacles()
+    {
+        obstacleSpawner.CloseAllActiveVehicles();
+    }
 }
