@@ -28,6 +28,7 @@ namespace Deniz
 
         void Start()
         {
+            PlayerPrefs.SetInt("Coin", 100000);
             currentLevel = PlayerPrefs.GetInt("Level");
             previousLevel = PlayerPrefs.GetInt("PreviousLevel");
             speed = PlayerPrefs.GetFloat("Speed");
