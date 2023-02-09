@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System;
+using Deniz;
 
 public class UIManager : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
 
     [Header("Game Start")]
-    [SerializeField] private GameManager gameManager;
+    [SerializeField] private Deniz.GameManager gameManager;
     [SerializeField] private GameObject levelTextParent;
 
     [Header("Buttons")]
@@ -219,6 +220,9 @@ public class UIManager : MonoBehaviour
         PlayerPrefs.SetInt("Coin", Coins);
         WPGatheredCoinText.text = Coins.ToString();
         buttons[1].SetActive(false);
+        levelIndex++;
+        PlayerPrefs.SetInt("Level", levelIndex);
+        SceneManager.LoadScene(currentSceneIndex);
     }
     private void CloseSettingsButton()
     {
@@ -268,13 +272,26 @@ public class UIManager : MonoBehaviour
 
     public void ContiuneButton()
     {
+        /*gameManager.RevivePlayer();
+        CloseLosePanel();
+        buttons[7].gameObject.SetActive(false);
+        currentCoroutine = StartCoroutine(TimeTextAnimation());
+        StartCoroutine(StopAfter());*/
+        if (_adManager.RewardedAdManager.IsRewardedAdReady())
+        {
+            _adManager.RewardedAdManager.RegisterOnUserEarnedRewarededEvent(OnUserEarnedReward2);
+            _adManager.RewardedAdManager.ShowAd();
+        }
+    }
+
+    private void OnUserEarnedReward2(IronSourcePlacement placement, IronSourceAdInfo info)
+    {
         gameManager.RevivePlayer();
         CloseLosePanel();
         buttons[7].gameObject.SetActive(false);
         currentCoroutine = StartCoroutine(TimeTextAnimation());
         StartCoroutine(StopAfter());
     }
-
     IEnumerator TimeTextAnimation()
     {
         TimeText.gameObject.SetActive(true);

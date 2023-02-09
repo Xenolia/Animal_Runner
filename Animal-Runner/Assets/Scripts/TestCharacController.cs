@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Deniz;
 public class TestCharacController : MonoBehaviour
 {
     // Yarýn yapýlacaklar obje havuzu ve altýn havuzu yapýlacak
@@ -31,7 +32,7 @@ public class TestCharacController : MonoBehaviour
 
     [Header("Spawn")]
     [SerializeField] private SpawnManager spawnManager;
-    [SerializeField] private GameManager gameManager;
+    [SerializeField] private Deniz.GameManager gameManager;
 
     //[Header("Animation")]
     //[SerializeField] private Animator playerAnimator;
@@ -117,7 +118,7 @@ public class TestCharacController : MonoBehaviour
                 rb.velocity = Vector3.up * jumpForce;
             }
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
             if (isJumping)
             {

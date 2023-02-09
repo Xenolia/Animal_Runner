@@ -29,15 +29,18 @@ public class GameDistribution : MonoBehaviour
     private static extern void SDK_ShowAd(string adType);
     [DllImport("__Internal")]
     private static extern void SDK_SendEvent(string options);
+
     private bool _isRewardedVideoLoaded = false;
 
-    void Awake()
-    {
-        //Init();
-    }
+    //void Awake()
+    //{
+  
+    //    Init();
+    //}
 
     public void Init()
     {
+
         if (GameDistribution.Instance == null)
             GameDistribution.Instance = this;
         else
@@ -56,8 +59,6 @@ public class GameDistribution : MonoBehaviour
     }
     internal void ShowAd()
     {
-        GameDistribution.OnPauseGame += () => Debug.Log("Test from inside pause");
-        GameDistribution.OnResumeGame += () => Debug.Log("Test froun indside resume");
         try
         {
             SDK_ShowAd(null);
@@ -162,4 +163,5 @@ public class GameDistribution : MonoBehaviour
         return _isRewardedVideoLoaded;
     }
 }
+
 #endif
