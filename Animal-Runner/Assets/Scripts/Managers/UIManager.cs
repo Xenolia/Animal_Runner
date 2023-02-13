@@ -174,19 +174,21 @@ public class UIManager : MonoBehaviour
 
     public void NextLevel()
     {
-        Debug.Log("asda");
-        if(_adManager.InterstatialAdManager.IsInterstatialAdReady())
-        {
-            _adManager.InterstatialAdManager.RegisterOnAdClosedEvent(OnInterstatialAdClosed);
-            _adManager.InterstatialAdManager.ShowAd();
-        }
-        else
-        {
-            levelIndex++;
-            PlayerPrefs.SetInt("Level", levelIndex);
-            SceneManager.LoadScene(currentSceneIndex);
-        }
-
+        /* Debug.Log("asda");
+         if(_adManager.InterstatialAdManager.IsInterstatialAdReady())
+         {
+             _adManager.InterstatialAdManager.RegisterOnAdClosedEvent(OnInterstatialAdClosed);
+             _adManager.InterstatialAdManager.ShowAd();
+         }
+         else
+         {
+             levelIndex++;
+             PlayerPrefs.SetInt("Level", levelIndex);
+             SceneManager.LoadScene(currentSceneIndex);
+         }*/
+        levelIndex++;
+        PlayerPrefs.SetInt("Level", levelIndex);
+        SceneManager.LoadScene(currentSceneIndex);
     }
 
     private void OnInterstatialAdClosed(IronSourceAdInfo info)

@@ -17,7 +17,7 @@ namespace Deniz
         [Header("Camera")]
         [SerializeField] private GameObject[] cameras;
 
-        float finishDistance, speed, cameraSwapSpeed;
+        float finishDistance, speed, cameraSwapSpeed,gateOpenSpeed;
         GameObject player;
         int distance, coinNumber, currentLevel, previousLevel;
 
@@ -28,27 +28,52 @@ namespace Deniz
 
         void Start()
         {
-            PlayerPrefs.SetInt("Coin", 100000);
             currentLevel = PlayerPrefs.GetInt("Level");
             previousLevel = PlayerPrefs.GetInt("PreviousLevel");
             speed = PlayerPrefs.GetFloat("Speed");
+            gateOpenSpeed = PlayerPrefs.GetFloat("GateSpeed");
             MarketController.current.InitiliazeMarketController();
             cameraSwapSpeed = PlayerPrefs.GetFloat("CMSpeed");
             CameraManager.current.SetCameraChangeSpeed(cameraSwapSpeed);
 
             if (currentLevel % 5 == 0 && currentLevel != previousLevel)
             {
-                if (cameraSwapSpeed >= 0.7f)
+                cameraSwapSpeed -= 0.1f;
+                gateOpenSpeed += .25f;
+                speed += 0.45f;
+                if (cameraSwapSpeed < 0.7f)
                 {
-                    cameraSwapSpeed -= 0.1f;
+                    cameraSwapSpeed = 0.7f;
+                    CameraManager.current.SetCameraChangeSpeed(cameraSwapSpeed);
+                    PlayerPrefs.SetFloat("CMSpeed", cameraSwapSpeed);
+                }
+                else
+                {
                     CameraManager.current.SetCameraChangeSpeed(cameraSwapSpeed);
                     PlayerPrefs.SetFloat("CMSpeed", cameraSwapSpeed);
                 }
 
-                if (speed <= 6.9f)
+                if (speed > 7.8f)
                 {
-                    speed += 0.45f;
+                    speed = 6.9f;
                     PlayerPrefs.SetFloat("Speed", speed);
+                    PlayerPrefs.SetInt("PreviousLevel", currentLevel);
+                }
+                else
+                {
+                    PlayerPrefs.SetFloat("Speed", speed);
+                    PlayerPrefs.SetInt("PreviousLevel", currentLevel);
+                }
+
+                if(gateOpenSpeed > 6f)
+                {
+                    gateOpenSpeed = 6f;
+                    PlayerPrefs.SetFloat("GateSpeed", gateOpenSpeed);
+                    PlayerPrefs.SetInt("PreviousLevel", currentLevel);
+                }
+                else
+                {
+                    PlayerPrefs.SetFloat("GateSpeed", gateOpenSpeed);
                     PlayerPrefs.SetInt("PreviousLevel", currentLevel);
                 }
 
@@ -62,7 +87,7 @@ namespace Deniz
             distance = Mathf.RoundToInt(player.transform.position.z);
             UIManager.current.UpdateDistanceText(distance);
 
-            finishDistance = (25 + currentLevel * 15) + 1;
+            finishDistance = (25 + currentLevel * 15) ;
             finishLine.transform.position = new Vector3(transform.position.x, transform.position.y, finishDistance);
         }
 
@@ -138,8 +163,8 @@ namespace Deniz
 
         private void OpenTheGates()
         {
-            gates[0].transform.DORotate(new Vector3(0, -90, 0), 4f, RotateMode.LocalAxisAdd);
-            gates[1].transform.DORotate(new Vector3(0, 90, 0), 4f, RotateMode.LocalAxisAdd);
+            gates[0].transform.DORotate(new Vector3(0, -90, 0), gateOpenSpeed, RotateMode.LocalAxisAdd);
+            gates[1].transform.DORotate(new Vector3(0, 90, 0), gateOpenSpeed, RotateMode.LocalAxisAdd);
         }
 
         #region Revive

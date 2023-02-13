@@ -65,7 +65,7 @@ public class AdManager : MonoBehaviour
         _apKey = _ironSourceMediationSettings.IOSAppKey;
 #endif
        
-#if UNITY_ANDROID || UNITY_IOS
+#if UNITY_ANDROID || UNITY_IOS || UNITY_EDITOR
         IronSourceEvents.onSdkInitializationCompletedEvent += OnSdkInitializationComplateEvent;
         IronSource.Agent.init(_apKey);
 
@@ -90,7 +90,7 @@ public class AdManager : MonoBehaviour
             LoadAds();
         }
 #endif
-#if UNITY_WEBGL
+#if UNITY_WEBGL && !UNITY_EDITOR
         //_gameDistribution.Init();
 
         //_rewardedAdManager = new GameDistrubutionRewardedAdManager();

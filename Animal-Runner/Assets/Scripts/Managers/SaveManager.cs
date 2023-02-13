@@ -18,12 +18,17 @@ public class SaveManager : MonoBehaviour
         }
         if (!PlayerPrefs.HasKey("Speed"))
         {
-            PlayerPrefs.SetFloat("Speed", 1f);
+            PlayerPrefs.SetFloat("Speed", 3.3f);
         }
 
         if (!PlayerPrefs.HasKey("CMSpeed"))
         {
             PlayerPrefs.SetFloat("CMSpeed", 1f);
+        }
+
+        if (!PlayerPrefs.HasKey("GateSpeed"))
+        {
+            PlayerPrefs.SetFloat("GateSpeed", 4f);
         }
 
         if (!PlayerPrefs.HasKey("Sounds"))

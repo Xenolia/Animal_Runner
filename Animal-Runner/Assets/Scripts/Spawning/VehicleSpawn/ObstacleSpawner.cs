@@ -91,7 +91,7 @@ public class ObstacleSpawner : MonoBehaviour
         {
             trucks[truckIndex].SetActive(true);
             truckXPos = Random.Range(-0.35f, 0.35f);
-            trucks[truckIndex].transform.position = new Vector3(truckXPos, -0.015f, playerTransform.position.z + 16f);
+            trucks[truckIndex].transform.position = new Vector3(truckXPos, -0.015f, playerTransform.position.z + 17f);
         }
         else
         {
@@ -101,7 +101,7 @@ public class ObstacleSpawner : MonoBehaviour
                 {
                     truck.SetActive(true);
                     truckXPos = Random.Range(-0.35f, 0.35f);
-                    truck.transform.position = new Vector3(truckXPos, -0.015f, playerTransform.position.z + 16f);
+                    truck.transform.position = new Vector3(truckXPos, -0.015f, playerTransform.position.z + 17f);
                     return;
                 }
             }
@@ -128,7 +128,7 @@ public class ObstacleSpawner : MonoBehaviour
         {
             barriers[barrierIndex].SetActive(true);
            // barrierXPos = Random.Range(-0.35f, 0.35f);
-            barriers[barrierIndex].transform.localPosition = new Vector3(0, 0f, playerTransform.position.z + 17f);
+            barriers[barrierIndex].transform.localPosition = new Vector3(0, 0f, playerTransform.position.z + 18f);
         }
         else
         {
@@ -138,7 +138,7 @@ public class ObstacleSpawner : MonoBehaviour
                 {
                     barrier.SetActive(true);
                     //barrierXPos = Random.Range(-0.35f, 0.35f);
-                    barrier.transform.localPosition = new Vector3(0, 0f, playerTransform.position.z + 17f);
+                    barrier.transform.localPosition = new Vector3(0, 0f, playerTransform.position.z + 18f);
                     return;
                 }
             }
